@@ -1,0 +1,28 @@
+{
+  "activities": [
+    {
+      "dayOfWeek": "Monday",
+      "event": "Fishing"
+    },
+    {
+      "dayOfWeek": "Tuesday",
+      "event": "Hiking"
+    },
+    {
+      "dayOfWeek": "Wednesday",
+      "event": "Swimming"
+    },
+    {
+      "dayOfWeek": "Friday",
+      "event": "Fishing"
+    },
+    {
+      "dayOfWeek": "Saturday",
+      "event": "Resting"
+    },
+    {
+      "dayOfWeek": "Sunday",
+      "event": "Resting"
+    }
+  ]
+}
