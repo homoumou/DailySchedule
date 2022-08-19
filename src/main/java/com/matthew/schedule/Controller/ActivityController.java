@@ -35,6 +35,6 @@ public class ActivityController {
     @GetMapping("/activity/{dayOfWeek}")
     public ResponseEntity<String> getActivityByDayOfWeek(@PathVariable String dayOfWeek){
         Activity activity = activityService.queryCalender(dayOfWeek);
-        return ResponseEntity.ok(activityService.queryCalender(dayOfWeek).getEvent());
+        return ResponseEntity.ok(activity.getDayOfWeek() + " : " + activity.getEvent());
     } 
 }
