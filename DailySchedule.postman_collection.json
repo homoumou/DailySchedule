@@ -1,0 +1,93 @@
+{
+	"info": {
+		"_postman_id": "819cd913-768f-4ad1-936e-4b64572e5244",
+		"name": "DailySchedule",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19325748"
+	},
+	"item": [
+		{
+			"name": "createActivity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"activities\": [\r\n    {\r\n      \"dayOfWeek\": \"Monday\",\r\n      \"event\": \"Fishing\"\r\n    },\r\n    {\r\n      \"dayOfWeek\": \"Tuesday\",\r\n      \"event\": \"Hiking\"\r\n    },\r\n    {\r\n      \"dayOfWeek\": \"Wednesday\",\r\n      \"event\": \"Swimming\"\r\n    },\r\n    {\r\n      \"dayOfWeek\": \"Friday\",\r\n      \"event\": \"Fishing\"\r\n    },\r\n    {\r\n      \"dayOfWeek\": \"Saturday\",\r\n      \"event\": \"Resting\"\r\n    },\r\n    {\r\n      \"dayOfWeek\": \"Sunday\",\r\n      \"event\": \"Resting\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/v1/activity",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"activity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addActivity",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v1/activity?dayOfWeek=Monday&event=Fishing",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"activity"
+					],
+					"query": [
+						{
+							"key": "dayOfWeek",
+							"value": "Monday"
+						},
+						{
+							"key": "event",
+							"value": "Fishing"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getActivityByDayOfWeek",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/v1/activity/Monday",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"activity",
+						"Monday"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
