@@ -24,17 +24,17 @@ public class ActivityController {
 
     @PostMapping("/activity")
     public ResponseEntity<Map<DayOfWeek, Activity>> createActivity(@RequestBody ActivitiesPostDto activitiesPostDto){
-        return ResponseEntity.ok(activityService.createWeeklyCalender(activitiesPostDto));
+        return ResponseEntity.ok(activityService.createWeeklyCalendar(activitiesPostDto));
     }
 
     @PutMapping("/activity")
     public ResponseEntity<Map<DayOfWeek, Activity>> addActivity(@RequestParam DayOfWeek dayOfWeek, @RequestParam String event) {
-        return ResponseEntity.ok(activityService.addWeeklyCalender(dayOfWeek, event));
+        return ResponseEntity.ok(activityService.addWeeklyCalendar(dayOfWeek, event));
     }
 
     @GetMapping("/activity/{dayOfWeek}")
     public ResponseEntity<String> getActivityByDayOfWeek(@PathVariable String dayOfWeek){
-        Activity activity = activityService.queryCalender(dayOfWeek);
+        Activity activity = activityService.queryCalendar(dayOfWeek);
         return ResponseEntity.ok(activity.getDayOfWeek() + " : " + activity.getEvent());
     } 
 }

@@ -102,7 +102,7 @@ public class ActivityControllerTest {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new ActivityController(activityService)).build();
         //given
         Activity activity = new Activity(DayOfWeek.Monday, "Fishing");
-        given(activityService.queryCalender("Monday")).willReturn(activity);
+        given(activityService.queryCalendar("Monday")).willReturn(activity);
         try {
             mockMvc.perform(MockMvcRequestBuilders.get("/activity/Monday")
                             .param("dayOfWeek", "Monday"))

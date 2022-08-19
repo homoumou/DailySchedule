@@ -56,7 +56,7 @@ public class ActivityServiceTest {
     @Test
     @DisplayName("addWeeklyCalender should return updatedCalender")
     void addWeeklyCalenderShouldReturnUpdatedCalender(){
-        Map<DayOfWeek, Activity> updatedCalender = activityService.addWeeklyCalender(DayOfWeek.Monday, "Fishing");
+        Map<DayOfWeek, Activity> updatedCalender = activityService.addWeeklyCalendar(DayOfWeek.Monday, "Fishing");
         Activity expectedActivity = new Activity(DayOfWeek.Monday, "Fishing");
         assertEquals(expectedActivity, updatedCalender.get(DayOfWeek.Monday));
     }
@@ -64,15 +64,15 @@ public class ActivityServiceTest {
     @Test
     @DisplayName("addWeeklyCalender should return updatedCalender")
     void createWeeklyCalenderShouldReturnUpdatedCalender(){
-        Map<DayOfWeek, Activity> updatedCalender = activityService.createWeeklyCalender(activitiesPostDto);
+        Map<DayOfWeek, Activity> updatedCalender = activityService.createWeeklyCalendar(activitiesPostDto);
         assertEquals(expectedCalender, updatedCalender);
     }
 
     @Test
     @DisplayName("queryCalender should return ExpectedActivity")
     void queryCalenderShouldReturnExpectedActivity(){
-        activityService.addWeeklyCalender(DayOfWeek.Monday, "Fishing");
-        Activity returnActivity = activityService.queryCalender("Monday");
+        activityService.addWeeklyCalendar(DayOfWeek.Monday, "Fishing");
+        Activity returnActivity = activityService.queryCalendar("Monday");
         Activity expectedActivity = new Activity(DayOfWeek.Monday, "Fishing");
         assertEquals(expectedActivity, returnActivity);
     }
@@ -80,13 +80,13 @@ public class ActivityServiceTest {
     @Test
     @DisplayName("queryCalender should throw DayOfWeekNotFoundException given invalid day of week")
     void queryCalenderThrowDayOfWeekNotFoundExceptionGivenInvalidDayOfWeek(){
-       assertThrows(DayOfWeekNotFoundException.class, ()->activityService.queryCalender("111"));
+       assertThrows(DayOfWeekNotFoundException.class, ()->activityService.queryCalendar("111"));
     }
 
     @Test
     @DisplayName("queryCalender should throw ActivityNotFoundException when activity is null")
     void queryCalenderThrowActivityNotFoundExceptionWhenActivityIsNull(){
-        assertThrows(ActivityNotFoundException.class, ()->activityService.queryCalender("Monday"));
+        assertThrows(ActivityNotFoundException.class, ()->activityService.queryCalendar("Monday"));
     }
 
 }
