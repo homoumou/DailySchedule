@@ -4,13 +4,14 @@ import com.matthew.schedule.constant.DayOfWeek;
 import com.matthew.schedule.dto.ActivitiesPostDto;
 import com.matthew.schedule.dto.ActivityPostDto;
 import com.matthew.schedule.entities.Activity;
+import com.matthew.schedule.exceptions.ActivityNotFoundException;
+import com.matthew.schedule.exceptions.DayOfWeekNotFoundException;
 import com.matthew.schedule.services.ActivityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class ActivityServiceTest {
@@ -46,6 +48,9 @@ public class ActivityServiceTest {
         expectedCalender.put(DayOfWeek.Friday, new Activity(DayOfWeek.Friday, "Fishing"));
         expectedCalender.put(DayOfWeek.Saturday, new Activity(DayOfWeek.Saturday, "Resting"));
         expectedCalender.put(DayOfWeek.Sunday, new Activity(DayOfWeek.Sunday, "Resting"));
+
+        List<ActivityPostDto> invalidActivities = new ArrayList<>();
+        activities.add(new ActivityPostDto(DayOfWeek.Monday, "Fishing"));
     }
 
     @Test
@@ -64,11 +69,24 @@ public class ActivityServiceTest {
     }
 
     @Test
-    @DisplayName("addWeeklyCalender should return updatedCalender")
+    @DisplayName("queryCalender should return ExpectedActivity")
     void queryCalenderShouldReturnExpectedActivity(){
         activityService.addWeeklyCalender(DayOfWeek.Monday, "Fishing");
         Activity returnActivity = activityService.queryCalender("Monday");
         Activity expectedActivity = new Activity(DayOfWeek.Monday, "Fishing");
         assertEquals(expectedActivity, returnActivity);
     }
+
+    @Test
+    @DisplayName("queryCalender should throw DayOfWeekNotFoundException given invalid day of week")
+    void queryCalenderThrowDayOfWeekNotFoundExceptionGivenInvalidDayOfWeek(){
+       assertThrows(DayOfWeekNotFoundException.class, ()->activityService.queryCalender("111"));
+    }
+
+    @Test
+    @DisplayName("queryCalender should throw ActivityNotFoundException when activity is null")
+    void queryCalenderThrowActivityNotFoundExceptionWhenActivityIsNull(){
+        assertThrows(ActivityNotFoundException.class, ()->activityService.queryCalender("Monday"));
+    }
+
 }

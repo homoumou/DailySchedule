@@ -2,11 +2,11 @@ package com.matthew.schedule.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.matthew.schedule.Controller.ActivityController;
-import com.matthew.schedule.Controller.ControllerExceptionHandler;
 import com.matthew.schedule.constant.DayOfWeek;
 import com.matthew.schedule.dto.ActivitiesPostDto;
 import com.matthew.schedule.dto.ActivityPostDto;
 import com.matthew.schedule.entities.Activity;
+import com.matthew.schedule.exceptions.ActivityNotFoundException;
 import com.matthew.schedule.services.ActivityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,10 +14,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -58,12 +60,29 @@ public class ActivityControllerTest {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new ActivityController(activityService)).build();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
+            String str = objectMapper.writeValueAsString(activitiesPostDto);
             mockMvc.perform(MockMvcRequestBuilders.post("/activity")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(activitiesPostDto)))
                     .andExpect(status().isOk());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testCreateActivityThrowHttpMessageNotReadableException() {
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new ActivityController(activityService)).build();
+        try {
+            String str = "{\"activities\":[{\"dayOfWeek\":\"123\",\"event\":\"Fishing\"}]}";
+
+            mockMvc.perform(MockMvcRequestBuilders.post("/activity")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(str))
+                    .andExpect(status().is4xxClientError());
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertEquals(HttpMessageNotReadableException.class, e);
         }
     }
 
