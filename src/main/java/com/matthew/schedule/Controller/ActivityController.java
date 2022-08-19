@@ -1,5 +1,6 @@
 package com.matthew.schedule.Controller;
 
+import com.matthew.schedule.constant.DayOfWeek;
 import com.matthew.schedule.dto.ActivitiesPostDto;
 import com.matthew.schedule.dto.ActivityPutDto;
 import com.matthew.schedule.entities.Activity;
@@ -14,21 +15,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 public class ActivityController {
     private final ActivityService activityService;
 
     @PostMapping("/activity")
-    public ResponseEntity<Void> createActivity(@RequestBody ActivitiesPostDto activitiesPostDto){
-        activityService.createWeeklyCalender(activitiesPostDto);
-        return ResponseEntity.ok(null);
+    public ResponseEntity<Map<DayOfWeek, Activity>> createActivity(@RequestBody ActivitiesPostDto activitiesPostDto){
+        return ResponseEntity.ok(activityService.createWeeklyCalender(activitiesPostDto));
     }
 
     @PutMapping("/activity")
-    public ResponseEntity<Void> addActivity(@RequestParam String dayOfWeek, @RequestParam String event) {
-        activityService.addWeeklyCalender(dayOfWeek, event);
-        return ResponseEntity.ok(null);
+    public ResponseEntity<Map<DayOfWeek, Activity>> addActivity(@RequestParam DayOfWeek dayOfWeek, @RequestParam String event) {
+        return ResponseEntity.ok(activityService.addWeeklyCalender(dayOfWeek, event));
     }
 
     @GetMapping("/activity/{dayOfWeek}")

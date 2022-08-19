@@ -1,5 +1,6 @@
 package com.matthew.schedule.dto;
 
+import com.matthew.schedule.constant.DayOfWeek;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class ActivityPostDto {
     @NonNull
-    private String dayOfWeek;
+    private DayOfWeek dayOfWeek;
     @NonNull
     private String event;
 }
