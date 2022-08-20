@@ -1,5 +1,6 @@
 package com.matthew.schedule.services;
 
+import com.matthew.schedule.Factory.ActivityFactory;
 import com.matthew.schedule.constant.DayOfWeek;
 import com.matthew.schedule.dto.ActivitiesPostDto;
 import com.matthew.schedule.dto.ActivityPostDto;
@@ -24,10 +25,13 @@ public class ActivityService {
     private Map<DayOfWeek, Activity> weeklyCalendar;
     private final ActivityMapper activityMapper;
     private final CalendarPrinter calendarPrinter;
+    private final ActivityFactory activityFactory;
 
     public Map<DayOfWeek, Activity> addWeeklyCalendar(DayOfWeek dayOfWeek, String event) {
         log.info("weeklyCalender updated");
-        weeklyCalendar.put(dayOfWeek, new Activity(dayOfWeek, event));
+        Activity activity = activityFactory.createActivity(dayOfWeek);
+        activity.setEvent(event);
+        weeklyCalendar.put(dayOfWeek, activity);
         calendarPrinter.printCalendar(weeklyCalendar);
         return weeklyCalendar;
     }
@@ -35,8 +39,9 @@ public class ActivityService {
     public Map<DayOfWeek, Activity> createWeeklyCalendar(ActivitiesPostDto activitiesPostDto) {
         log.info("weeklyCalender created");
         List<ActivityPostDto> activityArray = activitiesPostDto.getActivities();
-        for (ActivityPostDto Activity : activityArray) {
-            weeklyCalendar.put(Activity.getDayOfWeek(), activityMapper.toEntity(Activity));
+        for (ActivityPostDto activityPostDto : activityArray) {
+            Activity activity = activityMapper.toEntity(activityPostDto);
+            weeklyCalendar.put(activity.getDayOfWeek(), activity);
         }
         calendarPrinter.printCalendar(weeklyCalendar);
         return weeklyCalendar;

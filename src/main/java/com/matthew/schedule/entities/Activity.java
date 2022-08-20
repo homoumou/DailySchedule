@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Activity {
+public abstract class Activity {
     private DayOfWeek dayOfWeek;
     private String event;
+
+    public abstract  String printEvent();
 }
